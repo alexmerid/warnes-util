@@ -18,7 +18,7 @@ nomarch = "/media/alexander/Unidad_E/Warnes/Ejecucion/2025-06-16/001.csv"
 with open(nomarch, "r", encoding="utf-8") as archivo:
     lector = csv.reader(archivo)
     next(lector)  # Saltar la primera línea si es un encabezado
-    c = 1
+    c = 0
     id_ant = 0
     for fila in lector:
         cursor.execute(
