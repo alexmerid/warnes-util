@@ -13,7 +13,7 @@ DB_CONFIG = {
 conexion = pymysql.connect(**DB_CONFIG)
 cursor = conexion.cursor()
 
-nomarch = "/media/alexander/Unidad_E/Warnes/Ejecucion/2025-06-16/001.csv"
+nomarch = "/media/alexander/Unidad_E/Warnes/Ejecucion/2025-06/000.csv"
 
 with open(nomarch, "r", encoding="utf-8") as archivo:
     lector = csv.reader(archivo)
