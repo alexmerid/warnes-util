@@ -16,9 +16,28 @@ cursor = conexion.cursor()
 # nomarch = "/media/alexander/Unidad_E/Warnes/Ejecucion/2025-06/000.csv"
 nomarch = input("Ingrese el nombre del archivo CSV (con ruta completa): ")
 
+# Verficar si los Codigos de luminarias no existen en la base de datos
 with open(nomarch, "r", encoding="utf-8") as archivo:
     lector = csv.reader(archivo)
-    next(lector)  # Saltar la primera línea si es un encabezado
+    next(lector)  # Saltar encabezado
+    existentes = []
+    for fila in lector:
+        cursor.execute(
+            "select count(*) as conteo from poste_luminaria where codigo = %s", (fila[2],))
+        resultado = cursor.fetchone()
+        if resultado['conteo'] > 0:
+            existentes.append(fila[2])
+        if existentes:
+            print("Los siguientes códigos ya existen en la base de datos:")
+            print(existentes)
+            raise ValueError(
+                "Se encontraron Códigos duplicados. Proceso detenido.")
+
+# Leer el archivo CSV y procesar los datos
+with open(nomarch, "r", encoding="utf-8") as archivo:
+    lector = csv.reader(archivo)
+    next(lector)  # Saltar encabezado
+
     c = 0
     id_ant = 0
     for fila in lector:
