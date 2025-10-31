@@ -27,11 +27,11 @@ with open(nomarch, "r", encoding="utf-8") as archivo:
         resultado = cursor.fetchone()
         if resultado['conteo'] > 0:
             existentes.append(fila[2])
-        if existentes:
-            print("Los siguientes códigos ya existen en la base de datos:")
-            print(existentes)
-            raise ValueError(
-                "Se encontraron Códigos duplicados. Proceso detenido.")
+    if existentes:
+        print("Los siguientes códigos ya existen en la base de datos:")
+        print(existentes)
+        raise ValueError(
+            "Se encontraron Códigos duplicados. Proceso detenido.")
 
 # Leer el archivo CSV y procesar los datos
 with open(nomarch, "r", encoding="utf-8") as archivo:
