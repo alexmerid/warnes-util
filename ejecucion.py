@@ -15,6 +15,8 @@ cursor = conexion.cursor()
 
 # nomarch = "/media/alexander/Unidad_E/Warnes/Ejecucion/2025-06/000.csv"
 nomarch = input("Ingrese el nombre del archivo CSV (con ruta completa): ")
+# El archivo CSV tiene la siguiente estructura:
+# id_poste, id_luminaria, codigo, id_via, fecha_cambio, lum_ant
 
 # Verficar si los Codigos de luminarias no existen en la base de datos
 with open(nomarch, "r", encoding="utf-8") as archivo:
@@ -42,9 +44,18 @@ with open(nomarch, "r", encoding="utf-8") as archivo:
     id_ant = 0
     for fila in lector:
         cursor.execute(
-            "update poste_luminaria set fecha_desinst=%s where id_poste  = %s and fecha_desinst is NULL and codigo is NULL limit 1", (fila[4], fila[0]))
-        cursor.execute("insert into poste_luminaria (id_poste, id_luminaria,estado,fecha_inst,codigo) values(%s, %s, 1, %s, %s)",
-                       (fila[0], fila[1], fila[4], fila[2]))
+            "select id from poste_luminaria where id_poste = %s and id_luminaria = %s and fecha_desinst is null and codigo is null", (fila[0], fila[5]))
+        resultado = cursor.fetchone()
+        if resultado:
+            cursor.execute(
+                "update poste_luminaria set fecha_desinst=%s where id = %s", (fila[4], resultado['id']))
+            # cursor.execute(
+            #     "update poste_luminaria set fecha_desinst=%s where id_poste  = %s and fecha_desinst is NULL and codigo is NULL limit 1", (fila[4], fila[0]))
+            cursor.execute("insert into poste_luminaria (id_poste, id_luminaria, estado, fecha_inst, codigo, reemp) values(%s, %s, 1, %s, %s, %s)",
+                           (fila[0], fila[1], fila[4], fila[2], resultado['id']))
+        else:
+            print(
+                f"No se encontró poste_luminaria para poste {fila[0]} y luminaria {fila[2]}.")
         if id_ant != fila[0] and fila[3] != '':
             cursor.execute(
                 "update poste set id_via=%s where id=%s", (fila[3], fila[0]))
