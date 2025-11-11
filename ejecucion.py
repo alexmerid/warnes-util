@@ -53,15 +53,15 @@ with open(nomarch, "r", encoding="utf-8") as archivo:
             #     "update poste_luminaria set fecha_desinst=%s where id_poste  = %s and fecha_desinst is NULL and codigo is NULL limit 1", (fila[4], fila[0]))
             cursor.execute("insert into poste_luminaria (id_poste, id_luminaria, estado, fecha_inst, codigo, reemp) values(%s, %s, 1, %s, %s, %s)",
                            (fila[0], fila[1], fila[4], fila[2], resultado['id']))
+            if id_ant != fila[0] and fila[3] != '':
+                cursor.execute(
+                    "update poste set id_via=%s where id=%s", (fila[3], fila[0]))
+            conexion.commit()
+            c += 1
         else:
             print(
                 f"No se encontró poste_luminaria para poste {fila[0]} y luminaria {fila[2]}.")
-        if id_ant != fila[0] and fila[3] != '':
-            cursor.execute(
-                "update poste set id_via=%s where id=%s", (fila[3], fila[0]))
-        conexion.commit()
         id_ant = fila[0]
-        c += 1
     print(f"Se actualizaron {c} filas")
 
 cursor.close()
