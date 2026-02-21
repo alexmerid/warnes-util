@@ -20,7 +20,7 @@ nomarch = input("Ingrese el nombre del archivo Excel (con ruta completa): ")
 wb = openpyxl.load_workbook(nomarch)
 hoja = wb.active
 
-print("\n")
+print("----- Inicio del proceso -----")
 # Verficar si los Codigos de luminarias no existen en la base de datos
 existentes = []
 observaciones = []
@@ -70,6 +70,7 @@ for fila in hoja.iter_rows(min_row=2, values_only=True):
             f"No se encontró poste_luminaria para poste {fila[0]} y luminaria {fila[2]}.")
     id_ant = fila[0]
 print(f"Se actualizaron {c} filas")
+print("----- Fin del proceso -----")
 
 cursor.close()
 conexion.close()
