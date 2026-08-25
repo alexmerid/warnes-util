@@ -12,7 +12,7 @@ DB_CONFIG = {
 }
 
 
-# Función para obtener los postes y luminarias entre dos referencias
+# Función para generar el archivo .csv con la información de los postes y luminarias.
 def postes_luminarias(ref_ini, ref_fin, nom_arch):
     query = """
         SELECT p.id AS id_poste, p.latitud, p.longitud, pl.id_luminaria, pl.codigo, pl.fecha_inst    
@@ -26,7 +26,7 @@ def postes_luminarias(ref_ini, ref_fin, nom_arch):
     tabla = cursor.fetchall()
     cursor.close()
     conexion.close()
-    with open(nom_arch, "w") as archivo:
+    with open(nom_arch, "w", encoding="utf-8-sig", newline="") as archivo:
         writer = csv.writer(archivo)
         writer.writerow(["Poste - Código", "Latitud", "Longitud",
                         "ID Luminaria", "Fecha Instalación"])
@@ -37,4 +37,4 @@ def postes_luminarias(ref_ini, ref_fin, nom_arch):
                             t["id_luminaria"], t["fecha_inst"]])
 
 
-postes_luminarias(4000, 4001, "tmp/Distrito 4.csv")
+postes_luminarias(2523, 2526, "tmp/D-02_023-026.csv")
