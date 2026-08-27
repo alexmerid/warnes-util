@@ -13,7 +13,6 @@ DB_CONFIG = {
 conexion = pymysql.connect(**DB_CONFIG)
 cursor = conexion.cursor()
 
-# nomarch = "/media/alexander/Unidad_E/Warnes/Ejecucion/2025-06/000.xlsx"
 nomarch = input("Ingrese el nombre del archivo Excel (con ruta completa): ")
 # El archivo Excel tiene la siguiente estructura:
 # id_poste, id_luminaria, codigo, id_via, fecha_cambio, lum_ant
