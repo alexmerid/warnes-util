@@ -1,3 +1,4 @@
+# Programa para el cambio de luminarias.
 import openpyxl
 import pymysql
 
