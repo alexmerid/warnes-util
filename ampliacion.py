@@ -75,9 +75,9 @@ for fila in hoja.iter_rows(min_row=2, values_only=True):
         "SELECT id FROM poste WHERE id = %s", (fila[0], ))
     resultado = cursor.fetchone()
     if resultado:
-        # Modificar el id_via del poste existente
-        cursor.execute("UPDATE poste SET id_via=%s WHERE id=%s",
-                       (fila[3], fila[0]))
+        # Modificar id_referencia y id_via del poste existente
+        cursor.execute("UPDATE poste SET id_referencia=%s, id_via=%s WHERE id=%s",
+                       (fila[5], fila[3], fila[0]))
     else:
         # Insertar un nuevo poste en la base de datos
         cursor.execute("INSERT INTO poste (id, latitud, longitud, id_referencia, id_via) VALUES(%s, %s, %s, %s, %s)",
